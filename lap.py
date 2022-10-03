@@ -58,7 +58,10 @@ while True:  # main while loop. use loop for capturing the user input
                 try:
 
                     print(
-                        f"{students_List_One[index]['name']} - {students_List_One[index]['grades']}", sep='\n',)
+                        f"{students_List_One[index]['name']}", sep='\n',)
+
+                    for k, v in students_List_One[index]['grades'].items():
+                        print("subject:", k, ", grad:", v)
                 except IndexError:
                     print("something went wrong")
             elif user_input == 'p':
