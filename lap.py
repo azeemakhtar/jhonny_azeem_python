@@ -40,20 +40,19 @@ while True:  # main while loop. use loop for capturing the user input
         sys.exit()  # exiting from the the program
 
     elif user_value == 'l':
-        for student in students_List_One:  # print only the names of the students
-            print(
-                f"NAME: {student['name']}, EMAIL: {student['email']}, AGE: {student['age']}", sep='\n')
+        for count, student in enumerate(students_List_One):  # print only the names of the students
+            print(f"{count} NAME: {student['name']}", sep='\n')
         print('')  # line space for next user command of action
-        """Dispaly grades of individaul students. ask User for in"""
+        """Dispaly grades of individaul students. ask User for a student name"""
         while True:
             student_grade()  # get user input to show grades of students from the list
             user_input = input()
             if user_input == 'g':
-                print('student ID for show grad from the registry' '\n')
+                print('Provide student full name to show grad from the registry' '\n')
 
                 student = input()
                 listt = [i for i, _ in enumerate(students_List_One) if _[
-                    'student_id'] == int(student)]
+                    'name'] == str(student)]
                 index = int(listt[0])
 
                 try:
