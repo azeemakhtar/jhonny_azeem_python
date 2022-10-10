@@ -65,6 +65,10 @@ while True:  # main while loop. use loop for capturing the user input
                 except IndexError:
                     print("something went wrong")
             elif user_input == 'p':
+                print('Provide student full name to get the personal details: ')
+                
+                student = input()
+                lisstt = [i for i, var_ in enumerate(student)]
                 for student in students_List_One:
                     print(
                         f"{student['name']} - {student['student_id']} - {student['email']}", sep='\n',)
