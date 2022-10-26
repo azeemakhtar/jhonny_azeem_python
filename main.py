@@ -1,11 +1,14 @@
+from email import header
 from lib2to3.pytree import convert
 from site import USER_SITE
-import requests # This needs to be installed with pip
-
-# DO NOT UPLOAD A VIRTUAL ENVIRONMENT TO GIT
+from urllib import response
+import requests
+import urllib3
+urllib3.disable_warnings()
 
 class CurrencyConverter:
     def __init__(self, url):
+
         self.data= requests.get(url, verify=False).json()
         self.currecies= self.data['rates']
         """
@@ -40,14 +43,23 @@ class CurrencyConverter:
         initial_amount = amount
         #fisrt convert it to USD if it is not in USD since USD is the base currency for conversion rate
         #this method takes arguments the currency you want to convets from, the currency in which you want to convert, and the amount you wan to convert
-        
+        url = "https://api.apilayer.com/exchangerates_data/convert?to={to_currency}&from={from_currency}&amount={amount}"
+
+        payload = {}
+        headers= {
+        "apikey": "XsCzsB7NXiQN2t64c5t3yD4flb7cruid"
+        }
+        response = requests.request("GET", url, verify=False, headers=headers, data = payload)
+
+        status_code = response.status_code
+        result = response.json()
+
         if from_currency != 'USD':
             amount = amount / self.currecies[from_currency]
 
         #limiting the precision to 4 decimal places
         amount = round(amount * self.currecies[to_currency], 4)
-        return amount
-
+        return amount      
         """
         This method is not required for Godkänt (G) grade
                 
@@ -56,11 +68,22 @@ class CurrencyConverter:
         This should not require any more requests (e.g you do not need to make another request with a different base currency)
         """
     
-    def list_currencies(self):
+    def list_currencies(self, url):
 
-        curl --request GET 'https://api.apilayer.com/exchangerates_data/live?base=USD&symbols=EUR,GBP' \
---header 'apikey: YOUR API KEY'
+        url = "https://openexchangerates.org/api/currencies.json?prettyprint=false&show_alternative=false&show_inactive=false&app_id=eafd01d91db74dde8db1f329d1d1a2f7"
+
+        headers = {"accept":"application/json"}
+
+        record_response = requests.get(url, Verify=False, header=headers).json()
+        
+        print(f"\n Available Currencies : {len(record_response)}")
+
+        for key, value in record_response.items():
+            print(key, value)
+        
         """
+        curl --request GET 'https://api.apilayer.com/exchangerates_data/live?base=USD&symbols=EUR,GBP' \
+        --header 'apikey: YOUR API KEY'
         This method lists available currencies in alphabetical order
         """
         
@@ -93,15 +116,11 @@ def main():
 
     
 if __name__ == "__main__":
+    main()
+
+    new_currency_converter = CurrencyConverter()
     #this is the main function
     user_input = int(input())
     if user_input == 0:
-       
-       list_currencies()
-
-
-    main()
-    
-    #url = 'https://api.exchangerate-api.com/v4/latest/USD'
-    #result = requests.get(url, verify=False)
-    #converter = RealTimeCurrencyConverter(result) 
+        
+        pass
